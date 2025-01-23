@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Error from './Error'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import styles from './styles.module.css'
 
 function LoginPage() {
 	const [login, setLogin] = useState('')
@@ -34,21 +35,34 @@ function LoginPage() {
 	}
 
 	return (
-		<div>
+		<div className={styles.form}>
 			<Error message={error} />
-			<div>
-				<h3>Авторизация</h3>
+			<div className={styles.form_inner}>
+				<h2>Авторизация</h2>
 				<input
 					type='text'
 					value={login}
 					onChange={e => setLogin(e.target.value)}
+					placeholder='Логин'
 				/>
 				<input
 					type='password'
 					value={password}
 					onChange={e => setPassword(e.target.value)}
+					placeholder='Пароль'
 				/>
-				<button onClick={handleLog}>Войти</button>
+				<button onClick={handleLog} className={styles.button}>
+					Войти
+				</button>
+				<p style={{ marginBottom: '0px' }}>
+					Нет акаунта?&nbsp;
+					<Link
+						to={'/registration'}
+						style={{ textDecoration: 'none', color: 'black' }}
+					>
+						Зарегистрироваться
+					</Link>
+				</p>
 			</div>
 		</div>
 	)

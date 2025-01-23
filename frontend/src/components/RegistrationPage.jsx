@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Error from './Error'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import styles from './styles.module.css'
 
 function RegistrationPage() {
 	const [login, setLogin] = useState('')
@@ -36,9 +37,9 @@ function RegistrationPage() {
 		}
 	}
 	return (
-		<div>
+		<div className={styles.form}>
 			<Error message={error} />
-			<div>
+			<div className={styles.form_inner}>
 				<h2>Регистрация</h2>
 				<input
 					type='text'
@@ -70,7 +71,22 @@ function RegistrationPage() {
 					onChange={e => setPassword(e.target.value)}
 					placeholder='Пароль'
 				/>
-				<button onClick={handleReg}>Зарегистрироваться</button>
+				<button
+					onClick={handleReg}
+					className={styles.button}
+					style={{ marginTop: '10px' }}
+				>
+					Зарегистрироваться
+				</button>
+				<p style={{ marginBottom: '0px' }}>
+					Уже есть аккаунт?&nbsp;
+					<Link
+						to={'/login'}
+						style={{ textDecoration: 'none', color: 'black' }}
+					>
+						Войти
+					</Link>
+				</p>
 			</div>
 		</div>
 	)

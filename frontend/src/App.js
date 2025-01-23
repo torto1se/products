@@ -1,4 +1,4 @@
-import { Routes, Route, useNavigate, useLocation } from 'react-router-dom'
+import { Routes, Route, useNavigate, useLocation, Link } from 'react-router-dom'
 import RegistrationPage from './components/RegistrationPage'
 import LoginPage from './components/LoginPage'
 import OrderPage from './components/OrderPage'
@@ -25,10 +25,31 @@ function App() {
 			>
 				<img
 					src={`../images/market.jpg`}
-					style={{ height: '100px', width: '700px' }}
+					alt='logo'
+					className={styles.header_image}
 				/>
+				{location.pathname === '/' && (
+					<div
+						style={{ textAlign: 'center', fontSize: '30px', marginTop: '20px' }}
+					>
+						<Link
+							style={{ textDecoration: 'none', color: 'black' }}
+							to={'/registration'}
+						>
+							Зарегистрироваться
+						</Link>
+						<br />
+						<Link
+							style={{ textDecoration: 'none', color: 'black' }}
+							to={'/login'}
+						>
+							Войти
+						</Link>
+					</div>
+				)}
 				{location.pathname !== '/registration' &&
-					location.pathname !== '/login' && (
+					location.pathname !== '/login' &&
+					location.pathname !== '/' && (
 						<button onClick={Logout} className={styles.button}>
 							Выйти
 						</button>

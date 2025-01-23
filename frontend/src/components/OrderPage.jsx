@@ -69,7 +69,7 @@ function OrderPage() {
 				}}
 			>
 				<div className={styles.order}>
-					<h3>Создание заказа</h3>
+					<h2>Создание заказа</h2>
 					<input
 						style={{ color: 'black' }}
 						type='text'
@@ -98,14 +98,7 @@ function OrderPage() {
 				<center>
 					<h2>Товар:</h2>
 				</center>
-				<div
-					style={{
-						margin: '50px',
-						display: 'grid',
-						gridTemplateColumns: 'repeat(5, 1fr)',
-						gap: '10px',
-					}}
-				>
+				<div className={styles.products}>
 					{products.map(prod => (
 						<div
 							key={prod.prod_id}

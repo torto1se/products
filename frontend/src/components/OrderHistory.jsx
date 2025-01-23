@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Error from './Error'
+import styles from './styles.module.css'
 
 function OrderHistory() {
 	const [order, setOrder] = useState([])
@@ -14,7 +15,7 @@ function OrderHistory() {
 		} else {
 			fetchOrder(token)
 		}
-	})
+	}, [navigate])
 
 	const fetchOrder = async token => {
 		const response = await fetch('http://localhost:3001/order', {
@@ -35,12 +36,20 @@ function OrderHistory() {
 	return (
 		<div>
 			<Error message={error} />
-			<div>
+			<div
+				style={{
+					display: 'flex',
+					width: '100%',
+					justifyContent: 'center',
+					flexDirection: 'column',
+					alignItems: 'center',
+				}}
+			>
 				<h3>История заказов</h3>
 				{order.length > 0 ? (
-					<table>
-						<thead>
-							<tr>
+					<table className={styles.table}>
+						<thead className={styles.thead}>
+							<tr className={styles.tr}>
 								<th>№</th>
 								<th>ФИО</th>
 								<th>Email</th>
@@ -51,7 +60,7 @@ function OrderHistory() {
 						</thead>
 						<tbody>
 							{order.map(ord => (
-								<tr key={ord.ord_id}>
+								<tr key={ord.id} className={styles.tr}>
 									<td>{ord.id}</td>
 									<td>{ord.full_name}</td>
 									<td>{ord.email}</td>
