@@ -115,9 +115,9 @@ function OrderPage() {
 								display: 'flex',
 								flexDirection: 'column',
 								alignItems: 'center',
-								justifyContent: 'flex-start', // Измените на flex-start
-								padding: '10px', // Добавьте отступы
-								overflow: 'visible', // Измените на visible
+								justifyContent: 'flex-start',
+								padding: '10px',
+								overflow: 'visible',
 							}}
 						>
 							<div>
