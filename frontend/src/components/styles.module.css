@@ -1,0 +1,45 @@
+.button {
+	color: black;
+	outline: none;
+	cursor: pointer;
+	border: none;
+	padding: 5px 10px; /* Уменьшите вертикальные отступы */
+	height: 30px; /* Увеличьте высоту */
+	border-radius: 10px;
+	background-color: rgb(225, 225, 225);
+	transition: all 0.4s ease;
+	display: flex; /* Добавьте это, чтобы центрировать текст */
+	justify-content: center; /* Центрируйте текст по горизонтали */
+	align-items: center; /* Центрируйте текст по вертикали */
+}
+
+.button:hover {
+	background-color: black;
+	color: white;
+}
+
+.wrapper {
+	margin: 0px;
+	padding: 0px;
+	text-decoration: none;
+	background-color: rgb(255, 255, 255);
+	height: 100vh;
+}
+
+.order {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	align-items: center;
+	border: 1px solid black;
+	width: 300px;
+	padding: 20px;
+	border-radius: 10px;
+}
+
+.order > input {
+	border: 0px;
+	border-bottom: 1px solid black;
+	padding: 0 0 2px 1px;
+	outline: none;
+}
