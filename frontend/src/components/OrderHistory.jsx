@@ -7,6 +7,7 @@ function OrderHistory() {
 	const [order, setOrder] = useState([])
 	const [error, setError] = useState('')
 	const navigate = useNavigate()
+	const login = localStorage.getItem('login')
 
 	useEffect(() => {
 		const token = localStorage.getItem('token')
@@ -33,6 +34,28 @@ function OrderHistory() {
 		}
 	}
 
+	const updateOrderStatus = async (id, status) => {
+		const token = localStorage.getItem('token')
+		const response = await fetch(`http://localhost:3001/order/${id}`, {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json',
+				authorization: `bearer ${token}`,
+			},
+			body: JSON.stringify({ status }),
+		})
+
+		if (response.ok) {
+			const updatedOrder = order.map(ord =>
+				ord.id === id ? { ...ord, status } : ord
+			)
+			setOrder(updatedOrder)
+		} else {
+			const data = await response.json()
+			setError(data.message)
+		}
+	}
+
 	return (
 		<div>
 			<Error message={error} />
@@ -50,11 +73,12 @@ function OrderHistory() {
 					<table className={styles.table}>
 						<thead className={styles.thead}>
 							<tr className={styles.tr}>
-								<th>№</th>
+								<th>ID</th>
 								<th>ФИО</th>
 								<th>Email</th>
 								<th>Товар</th>
 								<th>Кол-во</th>
+								<th>Адрес</th>
 								<th>Статус</th>
 							</tr>
 						</thead>
@@ -66,7 +90,23 @@ function OrderHistory() {
 									<td>{ord.email}</td>
 									<td>{ord.name_product}</td>
 									<td>{ord.amount_product}</td>
-									<td>{ord.status}</td>
+									<td>{ord.address}</td>
+									<td>
+										{login === 'sklad' ? (
+											<select
+												value={ord.status}
+												onChange={e =>
+													updateOrderStatus(ord.id, e.target.value)
+												}
+											>
+												<option value='Новое'>Новое</option>
+												<option value='Подтверждено'>Подтверждено</option>
+												<option value='Отменено'>Отменено</option>
+											</select>
+										) : (
+											ord.status
+										)}
+									</td>
 								</tr>
 							))}
 						</tbody>
@@ -74,6 +114,7 @@ function OrderHistory() {
 				) : (
 					<p>Нет заказов</p>
 				)}
+				{login === 'sklad' && <p>Админ</p>}
 			</div>
 		</div>
 	)

@@ -61,7 +61,7 @@ app.post('/login', (req, res) => {
 				expiresIn: '1h',
 			}
 		)
-		res.json({ token })
+		res.json({ token, login })
 	})
 })
 
@@ -109,19 +109,64 @@ app.get('/order', (req, res) => {
 	if (!token) {
 		return res.status(401).json({ message: 'Необходима авторизация' })
 	}
+
 	jwt.verify(token, 'secret', (err, decoded) => {
 		if (err) {
 			return res.status(401).json({ message: 'Неверный токен' })
 		}
 
-		db.all(
-			`select full_name, email, address, amount_product, name_product, status, id from "order" where email = ?`,
-			[decoded.email],
-			(err, rows) => {
+		const { login, email } = decoded
+
+		if (login === 'sklad') {
+			// Если пользователь sklad, вернуть все заказы
+			db.all(
+				`SELECT full_name, email, address, amount_product, name_product, status, id FROM "order"`,
+				[],
+				(err, rows) => {
+					if (err) {
+						return res.status(500).json({ message: err.message })
+					}
+					res.json(rows)
+				}
+			)
+		} else {
+			// Для остальных вернуть только заказы, связанные с их email
+			db.all(
+				`SELECT full_name, email, address, amount_product, name_product, status, id FROM "order" WHERE email = ?`,
+				[email],
+				(err, rows) => {
+					if (err) {
+						return res.status(500).json({ message: err.message })
+					}
+					res.json(rows)
+				}
+			)
+		}
+	})
+})
+
+app.put('/order/:id', (req, res) => {
+	const token = req.headers.authorization?.split(' ')[1]
+	if (!token) {
+		return res.status(401).json({ message: 'Необходима авторизация' })
+	}
+
+	jwt.verify(token, 'secret', (err, decoded) => {
+		if (err) {
+			return res.status(401).json({ message: 'Неверный токен' })
+		}
+
+		const { id } = req.params
+		const { status } = req.body
+
+		db.run(
+			`UPDATE "order" SET status = ? WHERE id = ?`,
+			[status, id],
+			function (err) {
 				if (err) {
 					return res.status(500).json({ message: err.message })
 				}
-				res.json(rows)
+				res.json({ message: 'Статус обновлен' })
 			}
 		)
 	})

@@ -25,7 +25,9 @@ function LoginPage() {
 		const data = await response.json()
 		if (response.ok) {
 			localStorage.setItem('token', data.token)
+			localStorage.setItem('login', data.login)
 			console.log('Вход', data.token)
+			console.log('Логин', data.login)
 			navigation('/order')
 		} else {
 			console.log(data.error)

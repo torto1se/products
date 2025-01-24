@@ -198,6 +198,12 @@
 
 .tr th:first-child {
 	width: 1%;
+	border-left: 1px solid #ddd;
+}
+
+.tr td:first-child {
+	width: 1%;
+	border-left: 1px solid #ddd;
 }
 
 .tr th:nth-child(2) {
@@ -217,7 +223,10 @@
 }
 
 .tr th:nth-child(6) {
-	width: 5%;
+	width: 10%;
+}
+.tr th:nth-child(7) {
+	width: 0%;
 }
 
 /* Адаптивность для мобильных устройств */
